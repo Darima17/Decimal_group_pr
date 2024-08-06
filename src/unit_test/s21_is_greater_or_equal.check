@@ -1,0 +1,83 @@
+#include "../../s21_decimal.h"
+
+#suite s21_is_greater_or_equal
+
+#test n_01
+s21_decimal val1 = {{0}};
+s21_decimal val2 = {{0}};
+ck_assert_int_eq(1, s21_is_greater_or_equal(val1, val2));
+
+#test n_02
+s21_decimal val1 = {{0}};
+s21_decimal val2 = {{0}};
+val1.bits[0] = 255;
+val2.bits[0] = 256;
+ck_assert_int_eq(0, s21_is_greater_or_equal(val1, val2));
+
+#test n_03
+s21_decimal val1 = {{0}};
+s21_decimal val2 = {{0}};
+val1.bits[0] = 256;
+val2.bits[0] = 256;
+ck_assert_int_eq(1, s21_is_greater_or_equal(val1, val2));
+
+#test n_04
+s21_decimal val1 = {{0}};
+s21_decimal val2 = {{0}};
+val1.bits[0] = 257;
+val2.bits[0] = 256;
+ck_assert_int_eq(1, s21_is_greater_or_equal(val1, val2));
+
+
+#test n_5
+s21_decimal src1 = {{0}};
+s21_decimal src2 = {{0}};
+// src1 = 2;
+// src2 = 3;
+src1.bits[0] = 0b00000000000000000000000000000010;
+src1.bits[1] = 0b00000000000000000000000000000000;
+src1.bits[2] = 0b00000000000000000000000000000000;
+src1.bits[3] = 0b00000000000000000000000000000000;
+src2.bits[0] = 0b00000000000000000000000000000011;
+src2.bits[1] = 0b00000000000000000000000000000000;
+src2.bits[2] = 0b00000000000000000000000000000000;
+src2.bits[3] = 0b00000000000000000000000000000000;
+int result = s21_is_greater_or_equal(src1, src2);
+int origin = 0;
+ck_assert_int_eq(result, origin);
+
+#test n_6
+s21_decimal src1 = {{0}};
+s21_decimal src2 = {{0}};
+// src1 = 3;
+// src2 = 2
+src1.bits[0] = 0b00000000000000000000000000000011;
+src1.bits[1] = 0b00000000000000000000000000000000;
+src1.bits[2] = 0b00000000000000000000000000000000;
+src1.bits[3] = 0b00000000000000000000000000000000;
+src2.bits[0] = 0b00000000000000000000000000000010;
+src2.bits[1] = 0b00000000000000000000000000000000;
+src2.bits[2] = 0b00000000000000000000000000000000;
+src2.bits[3] = 0b00000000000000000000000000000000;
+int result = s21_is_greater_or_equal(src1, src2);
+int origin = 1;
+ck_assert_int_eq(result, origin);
+
+
+#test n_7
+s21_decimal src1 = {{0}};
+s21_decimal src2 = {{0}};
+// src1 = 0;
+// src2 = 3;
+src1.bits[0] = 0b00000000000000000000000000000000;
+src1.bits[1] = 0b00000000000000000000000000000000;
+src1.bits[2] = 0b00000000000000000000000000000000;
+src1.bits[3] = 0b00000000000000000000000000000000;
+src2.bits[0] = 0b00000000000000000000000000000011;
+src2.bits[1] = 0b00000000000000000000000000000000;
+src2.bits[2] = 0b00000000000000000000000000000000;
+src2.bits[3] = 0b00000000000000000000000000000000;
+int result = s21_is_greater_or_equal(src1, src2);
+int origin = 0;
+ck_assert_int_eq(result, origin);
+

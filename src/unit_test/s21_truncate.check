@@ -1,0 +1,86 @@
+#include "../../s21_decimal.h"
+
+#suite s21_truncate
+
+#test n_01
+s21_decimal value =   {{0x00000000, 0x00000000, 0x00000000, 0x00000000}}; // 0
+s21_decimal result =  {{0x00000000, 0x00000000, 0x00000000, 0x00000000}}; // 0
+s21_decimal tmp;
+int ret = s21_truncate(value, &tmp);
+ck_assert_int_eq(result.bits[0], tmp.bits[0]);
+ck_assert_int_eq(result.bits[1], tmp.bits[1]);
+ck_assert_int_eq(result.bits[2], tmp.bits[2]);
+ck_assert_int_eq(result.bits[3], tmp.bits[3]);
+ck_assert_int_eq(ret, 0);
+
+#test n_02
+s21_decimal value = {{0xCF5C048C, 0x004D2BEF, 0x00000000, 0x00070000}};  // 2172188218.2812812
+s21_decimal result = {{0x8178F63A, 0x00000000, 0x00000000, 0x00000000}};  // 2172188218
+s21_decimal tmp;
+int ret = s21_truncate(value, &tmp);
+ck_assert_int_eq(result.bits[0], tmp.bits[0]);
+ck_assert_int_eq(result.bits[1], tmp.bits[1]);
+ck_assert_int_eq(result.bits[2], tmp.bits[2]);
+ck_assert_int_eq(result.bits[3], tmp.bits[3]);
+ck_assert_int_eq(ret, 0);
+
+#test n_03
+s21_decimal value = {{0xFEADBDA2, 0x000001FB, 0x00000000, 0x80060000}};  // -2181821.218210
+s21_decimal result = {{0x00214ABD, 0x00000000, 0x00000000, 0x80000000}};  //-2181821
+s21_decimal tmp;
+int ret = s21_truncate(value, &tmp);
+ck_assert_int_eq(result.bits[0], tmp.bits[0]);
+ck_assert_int_eq(result.bits[1], tmp.bits[1]);
+ck_assert_int_eq(result.bits[2], tmp.bits[2]);
+ck_assert_int_eq(result.bits[3], tmp.bits[3]);
+ck_assert_int_eq(ret, 0);
+
+#test n_04
+s21_decimal value = {{0x00000467, 0x0000007A, 0x00003215, 0x00010000}};  // 23650570576955414727997.5
+s21_decimal result = {{0xCCCCCD3D, 0x199999A5, 0x00000502, 0x00000000}};  // 23650570576955414727997
+s21_decimal tmp;
+int ret = s21_truncate(value, &tmp);
+ck_assert_int_eq(result.bits[0], tmp.bits[0]);
+ck_assert_int_eq(result.bits[1], tmp.bits[1]);
+ck_assert_int_eq(result.bits[2], tmp.bits[2]);
+ck_assert_int_eq(result.bits[3], tmp.bits[3]);
+ck_assert_int_eq(ret, 0);
+
+#test n_05
+s21_decimal value = {{0x000F4240, 0x00002710, 0x00002710, 0x80050000}};  // -1844674407800451901.20000
+s21_decimal result = {{0xB333333D, 0x19999999, 0x00000000, 0x80000000}};  //-1844674407800451901
+s21_decimal tmp;
+int ret = s21_truncate(value, &tmp);
+ck_assert_int_eq(result.bits[0], tmp.bits[0]);
+ck_assert_int_eq(result.bits[1], tmp.bits[1]);
+ck_assert_int_eq(result.bits[2], tmp.bits[2]);
+ck_assert_int_eq(result.bits[3], tmp.bits[3]);
+ck_assert_int_eq(ret, 0);
+
+#test n_06
+s21_decimal value = {{0x075BCD15, 0x00000000, 0x00000000, 0x00120000}}; // 0.000000000123456789
+s21_decimal result =  {{0x00000000, 0x00000000, 0x00000000, 0x00000000}};  // 0
+s21_decimal tmp;
+int ret = s21_truncate(value, &tmp);
+ck_assert_int_eq(result.bits[0], tmp.bits[0]);
+ck_assert_int_eq(result.bits[1], tmp.bits[1]);
+ck_assert_int_eq(result.bits[2], tmp.bits[2]);
+ck_assert_int_eq(result.bits[3], tmp.bits[3]);
+ck_assert_int_eq(ret, 0);
+
+#test n_07
+s21_decimal value = {{0x000F4240, 0x00000000, 0x00000000, 0x00020000}}; // 10000.00
+s21_decimal result =  {{0x00002710, 0x00000000, 0x00000000, 0x00000000}};  // 10000
+s21_decimal tmp;
+int ret = s21_truncate(value, &tmp);
+ck_assert_int_eq(result.bits[0], tmp.bits[0]);
+ck_assert_int_eq(result.bits[1], tmp.bits[1]);
+ck_assert_int_eq(result.bits[2], tmp.bits[2]);
+ck_assert_int_eq(result.bits[3], tmp.bits[3]);
+ck_assert_int_eq(ret, 0);
+
+
+
+
+
+

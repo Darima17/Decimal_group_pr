@@ -1,0 +1,135 @@
+#include "../../s21_decimal.h"
+
+#suite s21_from_int_to_decimal
+
+#test n_01
+  s21_decimal val = {{0, 0, 0, 0}};
+  int res = 0;
+  int tmp = 2147483647;
+  s21_from_int_to_decimal(tmp, &val);
+  s21_from_decimal_to_int(val, &res);
+  ck_assert_int_eq(res, tmp);
+
+#test n_02
+  int a = 100;
+  s21_decimal b = {{0, 0, 0, 0}};
+  s21_decimal *ptr_b = &b;
+
+  int add = s21_from_int_to_decimal(a, ptr_b);  // a записываем в b
+  s21_decimal etalon = {{100, 0, 0, 0}};
+  ck_assert_int_eq(add, 0);
+  // выходное значение s21_from_int_to_decimal - 0 TRUE и 1 FALSE
+  // s21_is_equal Возвращаемое значение: 0 - FALSE 1 - TRUE
+  int equal = s21_is_equal(b, etalon);
+  ck_assert_int_eq(equal, 1);
+
+
+#test n_03
+ int src1 = -1;
+  s21_decimal origin = {0}, result = {0};
+  s21_decimal *res = &result;
+  s21_from_int_to_decimal(src1, res);
+
+  origin.bits[0] = 0b00000000000000000000000000000001;
+  origin.bits[1] = 0b00000000000000000000000000000000;
+  origin.bits[2] = 0b00000000000000000000000000000000;
+  origin.bits[3] = 0b10000000000000000000000000000000;
+  ck_assert_int_eq(origin.bits[3], result.bits[3]);
+  ck_assert_int_eq(origin.bits[2], result.bits[2]);
+  ck_assert_int_eq(origin.bits[1], result.bits[1]);
+  ck_assert_int_eq(origin.bits[0], result.bits[0]);
+
+
+#test n_04
+int  a = 2147483647;
+  s21_decimal b;
+  s21_decimal *ptr_b = &b;
+ int add = s21_from_int_to_decimal(a, ptr_b);
+  s21_decimal etalon = {{2147483647, 0, 0, 0}};
+  ck_assert_int_eq(add, OK);
+int  equal = s21_is_equal(b, etalon);
+  ck_assert_int_eq(equal, 1);
+
+
+#test n_05
+ int a = -2147483647;
+  s21_decimal b;
+  s21_decimal *ptr_b = &b;
+int add = s21_from_int_to_decimal(a, ptr_b);
+  s21_decimal etalon = {{2147483647, 0, 0, 0}};
+  ck_assert_int_eq(add, OK);
+int  equal = s21_is_equal(b, etalon);
+  ck_assert_int_eq(equal, 0);
+
+
+#test n_06
+ int src1 = 1;
+  s21_decimal origin, result;
+  s21_decimal *res = &result;
+  s21_from_int_to_decimal(src1, res);
+  origin.bits[0] = 0b00000000000000000000000000000001;
+  origin.bits[1] = 0b00000000000000000000000000000000;
+  origin.bits[2] = 0b00000000000000000000000000000000;
+  origin.bits[3] = 0b00000000000000000000000000000000;
+  ck_assert_int_eq(origin.bits[3], result.bits[3]);
+  ck_assert_int_eq(origin.bits[2], result.bits[2]);
+  ck_assert_int_eq(origin.bits[1], result.bits[1]);
+  ck_assert_int_eq(origin.bits[0], result.bits[0]);
+
+#test n_07
+  int src1 = -1;
+  s21_decimal origin, result;
+  s21_decimal *res = &result;
+  s21_from_int_to_decimal(src1, res);
+  origin.bits[0] = 0b00000000000000000000000000000001;
+  origin.bits[1] = 0b00000000000000000000000000000000;
+  origin.bits[2] = 0b00000000000000000000000000000000;
+  origin.bits[3] = 0b10000000000000000000000000000000;
+  ck_assert_int_eq(origin.bits[3], result.bits[3]);
+  ck_assert_int_eq(origin.bits[2], result.bits[2]);
+  ck_assert_int_eq(origin.bits[1], result.bits[1]);
+  ck_assert_int_eq(origin.bits[0], result.bits[0]);
+
+
+#test n_08
+  int src1 = -987879878;
+  s21_decimal origin, result;
+  s21_decimal *res = &result;
+  s21_from_int_to_decimal(src1, res);
+  origin.bits[0] = 0b00111010111000011101100111000110;
+  origin.bits[1] = 0b00000000000000000000000000000000;
+  origin.bits[2] = 0b00000000000000000000000000000000;
+  origin.bits[3] = 0b10000000000000000000000000000000;
+  ck_assert_int_eq(origin.bits[3], result.bits[3]);
+  ck_assert_int_eq(origin.bits[2], result.bits[2]);
+  ck_assert_int_eq(origin.bits[1], result.bits[1]);
+  ck_assert_int_eq(origin.bits[0], result.bits[0]);
+
+#test n_09
+  int src1 = 796132784;
+  s21_decimal origin, result;
+  s21_decimal *res = &result;
+  s21_from_int_to_decimal(src1, res);
+  origin.bits[0] = 0b00101111011101000000010110110000;
+  origin.bits[1] = 0b00000000000000000000000000000000;
+  origin.bits[2] = 0b00000000000000000000000000000000;
+  origin.bits[3] = 0b00000000000000000000000000000000;
+  ck_assert_int_eq(origin.bits[3], result.bits[3]);
+  ck_assert_int_eq(origin.bits[2], result.bits[2]);
+  ck_assert_int_eq(origin.bits[1], result.bits[1]);
+  ck_assert_int_eq(origin.bits[0], result.bits[0]);
+
+
+#test n_10
+  int src1 = -12345677;
+  s21_decimal origin, result;
+  s21_decimal *res = &result;
+  s21_from_int_to_decimal(src1, res);
+  origin.bits[0] = 0b00000000101111000110000101001101;
+  origin.bits[1] = 0b00000000000000000000000000000000;
+  origin.bits[2] = 0b00000000000000000000000000000000;
+  origin.bits[3] = 0b10000000000000000000000000000000;
+  ck_assert_int_eq(origin.bits[3], result.bits[3]);
+  ck_assert_int_eq(origin.bits[2], result.bits[2]);
+  ck_assert_int_eq(origin.bits[1], result.bits[1]);
+  ck_assert_int_eq(origin.bits[0], result.bits[0]);

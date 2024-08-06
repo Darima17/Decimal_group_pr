@@ -1,0 +1,99 @@
+#include "../../s21_decimal.h"
+
+
+#suite s21_from_decimal_to_int
+
+#test n_01
+s21_decimal val = {{0, 0, 0, 0}};
+int res = 0;
+int tmp = -2147483648;
+s21_from_int_to_decimal(tmp, &val);
+s21_from_decimal_to_int(val, &res);
+ck_assert_int_eq(res, tmp);
+
+#test n_02
+s21_decimal val = {{0, 0, 0, 0}};
+int res = 0;
+int tmp = -20;
+s21_from_int_to_decimal(tmp, &val);
+s21_from_decimal_to_int(val, &res);
+ck_assert_int_eq(res, tmp);
+
+#test n_03
+s21_decimal val = {{0, 0, 0, 0}};
+int res = 0;
+int tmp = 2147483647;
+s21_from_int_to_decimal(tmp, &val);
+s21_from_decimal_to_int(val, &res);
+ck_assert_int_eq(res, tmp);
+
+#test n_04
+int a = 100;
+s21_decimal b = {{0, 0, 0, 0}};
+s21_decimal *ptr_b = &b;
+int add = s21_from_int_to_decimal(a, ptr_b);  // a записываем в b
+s21_decimal etalon = {{100, 0, 0, 0}};
+ck_assert_int_eq(add, 0);
+// выходное значение s21_from_int_to_decimal - 0 TRUE и 1 FALSE
+// s21_is_equal Возвращаемое значение: 0 - FALSE 1 - TRUE
+int equal = s21_is_equal(b, etalon);
+ck_assert_int_eq(equal, 1);
+
+
+#test n_05
+s21_decimal val = {{0, 0, 0, 0}};
+int res = 0;
+int tmp = 0;
+s21_from_int_to_decimal(tmp, &val);
+s21_from_decimal_to_int(val, &res);
+ck_assert_int_eq(res, tmp);
+
+#test n_06
+int number = 0;
+s21_decimal src = {{2147483648, 0, 0, 2147483648}};
+s21_from_decimal_to_int(src, &number);
+ck_assert_int_eq(number, -2147483648);
+
+#test n_07
+int src1 = -1;
+s21_decimal origin, result;
+s21_decimal *res = &result;
+s21_from_int_to_decimal(src1, res);
+
+origin.bits[0] = 0b00000000000000000000000000000001;
+origin.bits[1] = 0b00000000000000000000000000000000;
+origin.bits[2] = 0b00000000000000000000000000000000;
+origin.bits[3] = 0b10000000000000000000000000000000;
+ck_assert_int_eq(origin.bits[3], result.bits[3]);
+ck_assert_int_eq(origin.bits[2], result.bits[2]);
+ck_assert_int_eq(origin.bits[1], result.bits[1]);
+ck_assert_int_eq(origin.bits[0], result.bits[0]);
+
+
+#test n_08
+s21_decimal src1;
+// src1 = -12.25;
+src1.bits[0] = 0b00000000000000000000010011001001;
+src1.bits[1] = 0b00000000000000000000000000000000;
+src1.bits[2] = 0b00000000000000000000000000000000;
+src1.bits[3] = 0b10000000000000100000000000000000;
+int result = 0;
+int *res = &result;
+s21_from_decimal_to_int(src1, res);
+ck_assert_int_eq(result, -12);
+
+#test n_09
+int number = 0;
+s21_decimal src = {{5000, 0, 0, 2147483648}};
+s21_from_decimal_to_int(src, &number);
+ck_assert_int_eq(number, -5000);
+
+
+#test n_10
+s21_decimal val = {{0, 0, 0, 0}};
+int res = 0;
+int tmp = 123456789;
+s21_from_int_to_decimal(tmp, &val);
+s21_from_decimal_to_int(val, &res);
+ck_assert_int_eq(res, tmp);
+
